@@ -4,7 +4,6 @@ import tensorflow as tf
 from dynamicworld.sampler import Sampler
 #from s2cloudless import S2PixelCloudDetector
 
-
 # Split data in patches of a fixed shape...
 class Inference:
 
@@ -26,13 +25,18 @@ class Inference:
         self, 
         all_bands=False     
     ):
-        self.model = tf.saved_model.load(pkg_resources.resource_filename('dynamicworld', 'model/model/forward/'))
+        self.lulc = tf.saved_model.load(pkg_resources.resource_filename('dynamicworld', 'model/model/forward/'))
+        #self.cloud = S2PixelCloudDetector(threshold=None, average_over=0, dilation_size=0, all_bands=True)
         self.all_bands = all_bands
-        #self.clouddetection = S2PixelCloudDetector(threshold=None, average_over=0, dilation_size=0, all_bands=all_bands)
 
 
     def predict(self, image):
         image = image.copy()
+
+        #cloud_prob = self.cloud.get_cloud_probability_maps(image)
+        #import pdb
+        #pdb.set_trace()
+
         if(self.all_bands == True):
             image = image[:, :, [1, 2, 3, 4, 5, 6, 7, 11, 12]] #['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B11', 'B12']
 
@@ -51,7 +55,7 @@ class Inference:
             x = tf.cast(x, dtype=tf.float32)
 
             # Run the model.
-            y = self.model(x)
+            y = self.lulc(x)
             
             # Get the softmax of the output logits.
             y = np.array(tf.nn.softmax(y))
@@ -62,6 +66,9 @@ class Inference:
         image = image.transpose((2, 0, 1)) #(H,W,C) -> (C, H, W)
         lulc_prob = sampler.apply(image, batch_size = 1, transform = transform, out_channels = 9)
         lulc_prob = lulc_prob.transpose((1, 2, 0)) #(C,H,W) -> (H, W, C)
+
+        
+
         return(lulc_prob)
 
 if(__name__ == '__main__'):

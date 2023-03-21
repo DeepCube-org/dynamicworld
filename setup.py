@@ -10,5 +10,11 @@ setup(
         'tensorflow',
         'numpy',
         'tqdm'               
-    ]
+    ],
+    package_data={'dynamicworld': [
+        'model/model/forward/saved_model.pb', 
+        'model/model/forward/variables/*',
+        'model/model/backward/saved_model.pb', 
+        'model/model/backward/variables/*',
+    ]}
 )
