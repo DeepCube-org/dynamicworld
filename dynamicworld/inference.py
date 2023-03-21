@@ -2,6 +2,7 @@ import numpy as np
 import pkg_resources
 import tensorflow as tf
 from dynamicworld.sampler import Sampler
+#from s2cloudless import S2PixelCloudDetector
 
 
 # Split data in patches of a fixed shape...
@@ -27,6 +28,8 @@ class Inference:
     ):
         self.model = tf.saved_model.load(pkg_resources.resource_filename('dynamicworld', 'model/model/forward/'))
         self.all_bands = all_bands
+        #self.clouddetection = S2PixelCloudDetector(threshold=None, average_over=0, dilation_size=0, all_bands=all_bands)
+
 
     def predict(self, image):
         image = image.copy()
