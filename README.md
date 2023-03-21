@@ -16,6 +16,10 @@ Classes:
 - Bare Ground
 - Snow & Ice
 
+## Example
+
+./dynamicworld/examples/usage.ipynb
+
 ## Next Steps
 
 - Add the cloud mask and/or cloud class
