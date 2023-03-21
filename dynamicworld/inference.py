@@ -25,8 +25,6 @@ class Inference:
         self, 
         all_bands=False     
     ):
-        import pdb
-        pdb.set_trace()
         self.model = tf.saved_model.load(pkg_resources.resource_filename('dynamicworld', 'model/model/forward/'))
         self.all_bands = all_bands
 
