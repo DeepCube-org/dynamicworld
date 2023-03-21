@@ -20,6 +20,14 @@ Classes:
 
 ./dynamicworld/examples/usage.ipynb
 
+## Installation
+
+### PIP
+pip install git+https://github.com/DeepCube-org/dynamicworld.gi
+
+### Docker
+docker build -f Dockerfile -t dynamicworld .
+
 ## Next Steps
 
 - Add the cloud mask and/or cloud class
