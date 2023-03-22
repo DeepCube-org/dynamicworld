@@ -37,7 +37,7 @@ The parameter ```cloud``` in the inference script allows the "blending" of the D
 DynamicWorld was trained considered S2 images without clouds, cloudy images could be condiered OOD for it. 
 So we could assume that DynamicWorld tries to model the lulc distribution given a cloudless image in input (C=0):
 
-$$DW(x) \approx p(Y=y|X=x, C=0)$$
+$$DW(x, y) \approx p(Y=y|X=x, C=0)$$
 
 But we would like to model the unconditional distribution:
 
@@ -51,13 +51,18 @@ And assuming that the model:
 
 $$p(C=c|X=x)$$
 
+is approximated by another model (s2cloudless in our case):
+
+$$s2cloudless(x) \approx p(C=1|X=x)$$
+
 We can model the desidered distribution by:
 ```math
 \begin{align}
 p(Y=y|X=x) & = \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
 & = \sum\limits_{c=0}^{1}\frac{p(Y=y,C=c,X=x)}{p(X=x)} = \\
 & = \sum\limits_{c=0}^{1}p(Y=y|C=c,X=x)p(C=c|X=x) = \\
-& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x)
+& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x) \approx
+& \approx DW(x)(1-s2cloudless(x))+\frac{1}{K}s2cloudless(x)
 \end{align}
 ```
 
