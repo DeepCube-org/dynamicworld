@@ -31,37 +31,37 @@ pip install git+https://github.com/DeepCube-org/dynamicworld.git
 ```
 docker build -f Dockerfile -t dynamicworld .
 ```
-$$\left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right)$$
-
 ### Clouds
 
 The parameter ```cloud``` in the inference script allows the "blending" of the DynamicWorld output and the output of the s2cloudless model. 
 DynamicWorld was trained considered S2 images without clouds, cloudy images could be condiered OOD for it. 
 So we could assume that DynamicWorld tries to model the lulc distribution given a cloudless image in input (C=0):
+
 $$
 p(Y=y|X=x, C=0)
 $$
+
 But we would like to model the unconditional distribution:
+
 $$
 p(Y=y|X=x)
 $$
+
 Assuming that it is ok to obtain an uniform distribution over the lulc classes if C=1:
+
 $$
 p(Y=y|X=x,C=1)=\frac{1}{K}
 $$
+
 And assuming that the model:
+
 $$
 p(C=c|X=x)
 $$
+
 We can model the desidered distribution by:
-$$
-\begin{align}
-p(Y=y|X=x) = && \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
-&& = \sum\limits_{c=0}^{1}\frac{p(Y=y,C=c,X=x)}{p(X=x)} = \\
-&& = \sum\limits_{c=0}^{1}p(Y=y|C=c,X=x)p(C=c|X=x) = \\
-&& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x)
-\end{align}
-$$
+
+
 
 ## Next Steps
 
