@@ -60,7 +60,7 @@ We can approximatge the desidered distribution by:
 \begin{align}
 p(Y=y|X=x) & = p(Y=y,C=0|X=x) + p(Y=y,C=1|X=x) = \\
 & = \frac{p(Y=y,C=0,X=x)}{p(X=x)} + \frac{p(Y=y,C=1,X=x)}{p(X=x)} = \\
-& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=0|X=x) = \approx \\
+& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=0|X=x) \approx \\
 & \approx DW(x, y)(1-s2cloudless(x))+\frac{1}{K}s2cloudless(x)
 \end{align}
 ```
