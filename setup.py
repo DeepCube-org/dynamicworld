@@ -9,8 +9,8 @@ setup(
     install_requires=[
         'tensorflow',
         'numpy',
-        'tqdm'
-        's2cloudless @ git+https://github.com/sentinel-hub/sentinel2-cloud-detector.git',
+        'tqdm',
+        's2cloudless @ git+https://github.com/sentinel-hub/sentinel2-cloud-detector.git'
     ],
     package_data={'dynamicworld': [
         'model/model/forward/saved_model.pb', 
