@@ -34,8 +34,8 @@ docker build -f Dockerfile -t dynamicworld .
 ### Clouds
 
 The parameter ```cloud``` in the inference script allows the "blending" of the DynamicWorld output and the output of the s2cloudless model. 
-DynamicWorld was trained considered S2 images without clouds, cloudy images could be condiered OOD for it. 
-So we could assume that DynamicWorld tries to model the lulc distribution given a cloudless image in input (C=0):
+DynamicWorld was trained considering only sentinel-2 images without clouds... it means that cloudy images could be condiered OOD for it. 
+So we could assume that the DynamicWorld model has been trained to approximate the lulc distribution of cloudless images (C=0):
 
 $$DW(x, y) \approx p(Y=y|X=x, C=0)$$
 
@@ -43,7 +43,7 @@ But we would like to model the unconditional distribution:
 
 $$p(Y=y|X=x)$$
 
-Assuming that it is ok to obtain an uniform distribution over the lulc classes if C=1:
+Assuming that it is ok to have an uniform distribution over the lulc classes if C=1:
 
 $$p(Y=y|X=x,C=1)=\frac{1}{K}$$
 
@@ -55,7 +55,7 @@ is approximated by another model (s2cloudless in our case):
 
 $$s2cloudless(x) \approx p(C=1|X=x)$$
 
-We can model the desidered distribution by:
+We can approximatge the desidered distribution by:
 ```math
 \begin{align}
 p(Y=y|X=x) & = \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
