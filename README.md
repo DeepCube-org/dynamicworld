@@ -37,27 +37,19 @@ The parameter ```cloud``` in the inference script allows the "blending" of the D
 DynamicWorld was trained considered S2 images without clouds, cloudy images could be condiered OOD for it. 
 So we could assume that DynamicWorld tries to model the lulc distribution given a cloudless image in input (C=0):
 
-$$
-p(Y=y|X=x, C=0)
-$$
+$$p(Y=y|X=x, C=0)$$
 
 But we would like to model the unconditional distribution:
 
-$$
-p(Y=y|X=x)
-$$
+$$p(Y=y|X=x)$$
 
 Assuming that it is ok to obtain an uniform distribution over the lulc classes if C=1:
 
-$$
-p(Y=y|X=x,C=1)=\frac{1}{K}
-$$
+$$p(Y=y|X=x,C=1)=\frac{1}{K}$$
 
 And assuming that the model:
 
-$$
-p(C=c|X=x)
-$$
+$$p(C=c|X=x)$$
 
 We can model the desidered distribution by:
 
