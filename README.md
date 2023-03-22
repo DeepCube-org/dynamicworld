@@ -54,10 +54,10 @@ $$p(C=c|X=x)$$
 We can model the desidered distribution by:
 ```math
 \begin{align}
-p(Y=y|X=x) = \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
-\sum\limits_{c=0}^{1}\frac{p(Y=y,C=c,X=x)}{p(X=x)} = \\
-\sum\limits_{c=0}^{1}p(Y=y|C=c,X=x)p(C=c|X=x) = \\
-p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x)
+p(Y=y|X=x) = & \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
+& \sum\limits_{c=0}^{1}\frac{p(Y=y,C=c,X=x)}{p(X=x)} = \\
+& \sum\limits_{c=0}^{1}p(Y=y|C=c,X=x)p(C=c|X=x) = \\
+& p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x)
 \end{align}
 ```
 
