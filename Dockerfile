@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/tensorflow:23.02-tf1-py3
+FROM nvcr.io/nvidia/tensorflow:23.02-tf2-py3
 
 ENV DEBIAN_FRONTEND=noninteractive
 

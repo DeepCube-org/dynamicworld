@@ -23,10 +23,14 @@ Classes:
 ## Installation
 
 ### PIP
-pip install git+https://github.com/DeepCube-org/dynamicworld.gi
+```
+pip install git+https://github.com/DeepCube-org/dynamicworld.git
+```
 
 ### Docker
+```
 docker build -f Dockerfile -t dynamicworld .
+```
 
 ## Next Steps
 
