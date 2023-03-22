@@ -65,9 +65,3 @@ p(Y=y|X=x) & = \sum\limits_{c=0}^{1}p(Y=y,C=c|X=x) = \\
 & \approx DW(x, y)(1-s2cloudless(x))+\frac{1}{K}s2cloudless(x)
 \end{align}
 ```
-
-
-
-## Next Steps
-
-- Add the cloud mask and/or cloud class
