@@ -2,7 +2,8 @@ import numpy as np
 import pkg_resources
 import tensorflow as tf
 from dynamicworld.sampler import Sampler
-#from s2cloudless import S2PixelCloudDetector
+from s2cloudless import S2PixelCloudDetector
+from dynamicworld.normalization import dynamic_world_normalization, s2_cloudless_normalization
 
 # Split data in patches of a fixed shape...
 class Inference:
@@ -21,57 +22,45 @@ class Inference:
         [2.1952484264967844, 2.789092484314204],
         [1.554812948247501, 2.4140534947492487]])
 
-    def __init__(
-        self, 
-        all_bands=False     
-    ):
+    def __init__(self, cloud = False):
         self.lulc = tf.saved_model.load(pkg_resources.resource_filename('dynamicworld', 'model/model/forward/'))
-        #self.cloud = S2PixelCloudDetector(threshold=None, average_over=0, dilation_size=0, all_bands=True)
-        self.all_bands = all_bands
 
+        if(cloud == True):
+            self.cloud = S2PixelCloudDetector(threshold=None, average_over=0, dilation_size=0, all_bands=True)
+        else:
+            self.cloud = None
+
+
+    def transform(self, x):
+        x = x.transpose((0, 2, 3, 1))
+
+        # DynamicWorld expects 4D (NHWC), float32 typed inputs.
+        x = tf.cast(x, dtype=tf.float32)
+
+        # Run the model.
+        y = self.lulc(x)
+        
+        # Get the softmax of the output logits.
+        y = np.array(tf.nn.softmax(y))
+
+        y = y.transpose((0, 3, 1, 2))
+        return(y)
 
     def predict(self, image):
-        image = image.copy()
-
-        #cloud_prob = self.cloud.get_cloud_probability_maps(image)
-        #import pdb
-        #pdb.set_trace()
-
-        if(self.all_bands == True):
-            image = image[:, :, [1, 2, 3, 4, 5, 6, 7, 11, 12]] #['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B11', 'B12']
-
-        image = np.log(image * 0.005 + 1)
-        image = (image - Inference.NORM_PERCENTILES[:, 0]) / Inference.NORM_PERCENTILES[:, 1]
-
-        # Get a sigmoid transfer of the re-scaled reflectance values.
-        image = np.exp(image * 5 - 1)
-        image = image / (image + 1)
-
+        
         sampler = Sampler(H = image.shape[0], W = image.shape[1], patch_size = 256, pad = 256//2)
-        def transform(x):
-            x = x.transpose((0, 2, 3, 1))
-
-            # DynamicWorld expects 4D (NHWC), float32 typed inputs.
-            x = tf.cast(x, dtype=tf.float32)
-
-            # Run the model.
-            y = self.lulc(x)
-            
-            # Get the softmax of the output logits.
-            y = np.array(tf.nn.softmax(y))
-
-            y = y.transpose((0, 3, 1, 2))
-            return(y)
-
-        image = image.transpose((2, 0, 1)) #(H,W,C) -> (C, H, W)
-        lulc_prob = sampler.apply(image, batch_size = 1, transform = transform, out_channels = 9)
+        lulc_prob = sampler.apply(dynamic_world_normalization(image).transpose((2, 0, 1)), batch_size = 1, transform = self.transform, out_channels = 9)
         lulc_prob = lulc_prob.transpose((1, 2, 0)) #(C,H,W) -> (H, W, C)
 
+        if(self.cloud is not None):
+            cloud_prob = self.cloud.get_cloud_probability_maps(s2_cloudless_normalization(image))
+            cloud_prob = np.expand_dims(cloud_prob, -1)
+            lulc_prob = lulc_prob*(1-cloud_prob) + (1.0/lulc_prob.shape[-1])*cloud_prob
         
-
         return(lulc_prob)
 
 if(__name__ == '__main__'):
-    inference = Inference(all_bands=True)
+    from dynamicworld.inference import Inference
+    inference = Inference(cloud = True)
     out = inference.predict(np.zeros((512, 512, 13)))
     print(out.shape)
