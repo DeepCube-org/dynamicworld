@@ -69,12 +69,13 @@ p(Y=y|X=x) & = p(Y=y,C=0|X=x) + p(Y=y,C=1|X=x) = \\
 \end{align}
 ```
 #### Cloud Adding
-We can define a new random variable $$Z$$ that will be as $$Y$$ but with the additional "cloud" class (K+1):
+We can define a new random variable Z that will be as Y but with the additional "cloud" class (K+1):
 ```math
-\begin{align}
-Z &= Y\ if\ C=0 \\
-Z &= K+1\ if\ C=1
-\end{align}
+Z = 
+\begin{cases}
+Y\ if\ C=0\\
+K+1\ if\ C=1
+\end{cases}
 ```
 Now we can try to study the distribution of Z:
 ```math
