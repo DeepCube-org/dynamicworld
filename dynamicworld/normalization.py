@@ -3,7 +3,10 @@ import numpy as np
 
 def dynamic_world_normalization(image):
     image = image.copy()
-
+    
+    # Define per-band constants we'll use to squash the Sentinel-2 reflectance range
+    # into something on (0, 1). These constants are 30/70 percentiles measured
+    # across a diverse set of surface conditions after a log transform.
     NORM_PERCENTILES = np.array([
         [1.7417268007636313, 2.023298706048351],
         [1.7261204997060209, 2.038905204308012],
