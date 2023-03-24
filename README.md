@@ -73,7 +73,7 @@ A cloud class is added to the output of the DynamicWorld model in a very simple 
 ```math
 \begin{align}
 p(Y=cloud|X=x) & \approx s2cloudless(x)\\
-p(Y=y|X=x) & \approx (1-s2cloudless(x))DW(x, y) \forall y\ \ \neq cloud
+p(Y=y|X=x) & \approx (1-s2cloudless(x))DW(x, y)\ \ \forall y\neq cloud
 \end{align}
 ```
 The idea is very simple, the probability of the cloud class is defined by ```s2cloudless(x)```, the rest of the probability mass ```1-s2cloudless(x)``` is distributed in the other classes according to the output of the DynamicWorld model. 
