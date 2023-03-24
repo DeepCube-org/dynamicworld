@@ -64,16 +64,29 @@ We can approximatge the desidered distribution by:
 \begin{align}
 p(Y=y|X=x) & = p(Y=y,C=0|X=x) + p(Y=y,C=1|X=x) = \\
 & = \frac{p(Y=y,C=0,X=x)}{p(X=x)} + \frac{p(Y=y,C=1,X=x)}{p(X=x)} = \\
-& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=0|X=x) \approx \\
+& = p(Y=y|C=0,X=x)p(C=0|X=x) + p(Y=y|C=1,X=x)p(C=1|X=x) \approx \\
 & \approx DW(x, y)(1-s2cloudless(x))+\frac{1}{K}s2cloudless(x)
 \end{align}
 ```
 #### Cloud Adding
-A cloud class is added to the output of the DynamicWorld model in a very simple way:
+We can define a new random variable $$Z$$ that will be as $$Y$$ but with the additional "cloud" class (K+1):
 ```math
 \begin{align}
-p(Y=c|X=x) & \approx s2cloudless(x)\\
-p(Y=y|X=x) & \approx (1-s2cloudless(x))DW(x, y) \forall y != c
+Z &= Y\ if\ C=0 \\
+Z &= K+1\ if\ C=1
 \end{align}
 ```
-The idea is very simple, the probability of the cloud class is defined by ```s2cloudless(x)```, the rest of the probability mass ```1-s2cloudless(x)``` is distributed in the other classes according to the output of the DynamicWorld model. 
+Now we can try to study the distribution of Z:
+```math
+\begin{align}
+&\text{if $k\neq K+1$}\\
+&p(Z=k|X=x) = p(C=0, Y=k|X=x) = p(Y=k|C=0, X=x)p(C=0|X=x) \approx (1-s2cloudless(x))DW(x, y)\\
+&\text{if $k=K+1$}\\
+&p(Z=K+1|X=x) = p(C=1|X=x) = s2cloudless(x)
+\end{align}
+```
+Where in the first result we have used the same initial assumption of the Mixing strategy:
+
+$$DW(x, y) \approx p(Y=y|X=x, C=0)$$
+
+The idea is also intuitively very simple, the probability of the cloud class is defined by ```s2cloudless(x)```, the rest of the probability mass ```1-s2cloudless(x)``` is distributed in the other classes according to the output of the DynamicWorld model. 
