@@ -83,7 +83,7 @@ Now we can try to study the distribution of Z:
 &\text{if $k\neq K+1$}\\
 &p(Z=k|X=x) = p(C=0, Y=k|X=x) = p(Y=k|C=0, X=x)p(C=0|X=x) \approx (1-s2cloudless(x))DW(x, y)\\\\
 &\text{if $k=K+1$}\\
-&p(Z=K+1|X=x) = p(C=1|X=x) = s2cloudless(x)
+&p(Z=K+1|X=x) = p(C=1|X=x) \approx s2cloudless(x)
 \end{align}
 ```
 Where in the first result we have used the same initial assumption of the Mixing strategy:
