@@ -71,8 +71,7 @@ p(Y=y|X=x) & = p(Y=y,C=0|X=x) + p(Y=y,C=1|X=x) = \\
 #### Cloud Adding
 We can define a new random variable Z that will be as Y but with the additional "cloud" class (K+1):
 ```math
-Z = 
-\begin{cases}
+Z = \begin{cases}
 Y, & \text{if $C=0$}\\
 K+1, & \text{if $C=1$}
 \end{cases}
