@@ -73,8 +73,8 @@ We can define a new random variable Z that will be as Y but with the additional 
 ```math
 Z = 
 \begin{cases}
-Y\ if\ C=0\\
-K+1\ if\ C=1
+Y\   & if\ C=0\\
+K+1\ & if\ C=1
 \end{cases}
 ```
 Now we can try to study the distribution of Z:
