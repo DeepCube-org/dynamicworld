@@ -74,14 +74,14 @@ We can define a new random variable Z that will be as Y but with the additional 
 Z = 
 \begin{cases}
 Y, & \text{if $C=0$}\\
-K+1, & \text{if $C=0$}
+K+1, & \text{if $C=1$}
 \end{cases}
 ```
 Now we can try to study the distribution of Z:
 ```math
 \begin{align}
 &\text{if $k\neq K+1$}\\
-&p(Z=k|X=x) = p(C=0, Y=k|X=x) = p(Y=k|C=0, X=x)p(C=0|X=x) \approx (1-s2cloudless(x))DW(x, y)\\
+&p(Z=k|X=x) = p(C=0, Y=k|X=x) = p(Y=k|C=0, X=x)p(C=0|X=x) \approx (1-s2cloudless(x))DW(x, y)\\\\
 &\text{if $k=K+1$}\\
 &p(Z=K+1|X=x) = p(C=1|X=x) = s2cloudless(x)
 \end{align}
