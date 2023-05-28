@@ -1,8 +1,22 @@
+"""
+sampler.py
+====================================
+Module containing the functionalities for the application of a model to an image in input.
+"""
+
 import numpy as np
 from tqdm import tqdm
+import pdb
+
 
 class Sampler:
+    """
+    Splitter of an image in a batch of patches.
+    """
 
+    """
+    Constructor
+    """
     def __init__(self, H, W, patch_size, pad): #Channels x H x W
         
         
@@ -367,28 +381,3 @@ class Sampler:
                 res[:, mask_start_x[hh+qq]:mask_end_x[hh+qq],mask_start_y[hh+qq]:mask_end_y[hh+qq]] = outputPatch[qq, :, outputPatch_start_x[hh+qq]:outputPatch_end_x[hh+qq], outputPatch_start_y[hh+qq]:outputPatch_end_y[hh+qq]]
 
         return(res)
-
-
-if __name__ == '__main__':
-
-    patch_size = 128
-    pad = patch_size // 2
-
-    sampler = Sampler(512, 512, patch_size = patch_size, pad = pad)
-
-    image = np.ones((3, 512, 512))
-    batch_size = 4
-
-    def transform(x):
-        print(x.shape)
-        exit(0)
-
-    out_channels = 1
-
-    out = sampler.apply(
-        image,
-        batch_size,
-        transform,
-        out_channels
-    )
-    print(out.shape)
