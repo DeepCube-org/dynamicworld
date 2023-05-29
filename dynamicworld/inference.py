@@ -44,6 +44,9 @@ class Inference:
         return(y)
 
     def predict(self, image):
+        """
+        The original model expect the image in the NHWC format, in the current wrapper the expected format is CHW
+        """    
         sampler = Sampler(H = image.shape[0], W = image.shape[1], patch_size = 256, pad = 256//2)
         lulc_prob = sampler.apply(dynamic_world_normalization(image).transpose((2, 0, 1)), batch_size = 1, transform = self.transform, out_channels = 9)
         lulc_prob = lulc_prob.transpose((1, 2, 0)) #(C,H,W) -> (H, W, C)
