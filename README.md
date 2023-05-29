@@ -28,9 +28,17 @@ pip install git+https://github.com/DeepCube-org/dynamicworld.git
 ```
 
 ### Docker
+
 ```
-docker build -f Dockerfile -t dynamicworld .
+docker build -t dynamicworld .
+docker run --gpus all -it -v %CD%:/opt/ml/code/ dynamicworld /bin/bash
 ```
+
+```
+cd /opt/ml/code/
+pip install -e .
+```
+
 ### Clouds
 
 It is possible to address clouds in two different ways by the ```cloud``` parameter.
