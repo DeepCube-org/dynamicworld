@@ -5,7 +5,15 @@ import os
 import time
 
 import numpy as np
-import tensorflow.test.experimental
+
+try:
+    from tensorflow.test.experimental import sync_devices
+    print('TensorFlow version supporting sync_devices')
+    
+except ModuleNotFoundError:
+    from experimental import sync_devices
+    print('TensorFlow version not supporting sync_devices')
+
 import tensorflow as tf
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model import signature_constants
@@ -39,10 +47,10 @@ def time_model(model, dummy_input):
     """
     with tf.device('/GPU:0'):
         
-        tf.test.experimental.sync_devices()
+        sync_devices()
         starter = time.time()*1000.0
         _ = model(dummy_input)
-        tf.test.experimental.sync_devices()
+        sync_devices()
         ender = time.time()*1000.0
         curr_time = ender-starter
     
@@ -113,7 +121,7 @@ def get_throughput(model, batch_size, resolution):
 
 
 
-model, _ = get_func_from_saved_model('../dynamicworld/model/model/forward/')
+model, _ = get_func_from_saved_model('dynamicworld/model/model/forward_trt/')
 
 for i in range(2):
     mean, std = get_latency(model, RESOLUTION)
