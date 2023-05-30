@@ -113,7 +113,7 @@ def get_throughput(model, batch_size, resolution):
 
 
 
-model, _ = get_func_from_saved_model('dynamicworld/model/model/forward/')
+model, _ = get_func_from_saved_model('../dynamicworld/model/model/forward/')
 
 for i in range(2):
     mean, std = get_latency(model, RESOLUTION)

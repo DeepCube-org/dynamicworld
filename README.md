@@ -98,12 +98,3 @@ Where in the first result we have used the same initial assumption of the Mixing
 $$DW(x, y) \approx p(Y=y|X=x, C=0)$$
 
 The idea is also intuitively very simple, the probability of the cloud class is defined by ```s2cloudless(x)```, the rest of the probability mass ```1-s2cloudless(x)``` is distributed in the other classes according to the output of the DynamicWorld model. 
-
-
-#### For AWS Sagemaker
-
-sudo systemctl stop docker
-sudo mv /var/lib/docker/ /home/ec2-user/SageMaker/docker/
-sudo ln -s /home/ec2-user/SageMaker/docker/ /var/lib/docker
-sudo systemctl start docker
-

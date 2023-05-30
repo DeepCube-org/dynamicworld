@@ -11,8 +11,9 @@ import tensorflow as tf
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
  
 
-saved_model_dir = 'dynamicworld/model/model/forward/'
-output_saved_model_dir = 'dynamicworld/model/model/forward_trt/'
+
+saved_model_dir = '../dynamicworld/model/model/forward/'
+output_saved_model_dir = '../dynamicworld/model/model/forward_trt/'
 
 
 # Instantiate the TF-TRT converter
