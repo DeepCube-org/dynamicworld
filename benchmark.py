@@ -10,6 +10,7 @@ import tensorflow as tf
 from tensorflow.python.saved_model import tag_constants
 from tensorflow.python.saved_model import signature_constants
 
+
 os.system('python --version')
 print(tf.__version__)
 
