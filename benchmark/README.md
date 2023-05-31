@@ -8,9 +8,11 @@ sudo systemctl start docker
 ```
 
 ```
-Follow Docker installation...
-...
 cd benchmark
+docker build -t benchmark .
+...
+cd /opt/ml/code/
+docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ benchmark /bin/bash
 python tf2rt.py
 python benchmark.py
 ```
@@ -23,19 +25,19 @@ python benchmark.py
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
-|       1        |    X ms     |
+|       1        |    18.8594  ms     | <!-- (std: 0.33) -->
 
 | **Batch Size** | **Throughput Avg** |
 |:--------------:|:------------------:|
-|       32        |      X img/s      |
+|       32        |      58.3326 img/s      |
 
 ###### TensorRT FP32 Inference Latency
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
-|       1        |    X ms     |
+|       1        |    15.2464 ms     |
 
 | **Batch Size** | **Throughput Avg** |
 |:--------------:|:------------------:|
-|       32        |      X img/s      |
+|       32        |      66.8489 img/s      |
 
