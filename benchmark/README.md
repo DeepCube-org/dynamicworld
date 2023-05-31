@@ -8,9 +8,49 @@ sudo systemctl start docker
 ```
 
 ```
-Follow Docker installation...
-...
 cd benchmark
-python tf2rt.py
-python benchmark.py
+docker build -t benchmark .
+...
+cd /opt/ml/code/
+docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ benchmark /bin/bash
+python tf2rt.py --precision 32 --path forward_trt/
+python tf2rt.py --precision 16 --path forward_trt_16/
+
+python benchmark.py --path forward/
+python benchmark.py --path forward_trt/
+python benchmark.py --path forward_trt_16/
 ```
+
+
+
+##### Inference performance: NVIDIA A10G
+
+###### FP32 Inference Latency
+
+| **Batch Size** | **Latency Avg** |
+|:--------------:|:---------------:|
+|       1        |    18.8594  ms     | <!-- (std: 0.3340) -->
+
+| **Batch Size** | **Throughput Avg** |
+|:--------------:|:------------------:|
+|       32        |      58.3326 img/s      |
+
+###### TensorRT FP32 Inference Latency
+
+| **Batch Size** | **Latency Avg** |
+|:--------------:|:---------------:|
+|       1        |    15.2464 ms     |
+
+| **Batch Size** | **Throughput Avg** |
+|:--------------:|:------------------:|
+|       32        |      66.8489 img/s      |  <!-- (std: 0.3939) --> 
+
+###### TensorRT FP16 Inference Latency
+
+| **Batch Size** | **Latency Avg** |
+|:--------------:|:---------------:|
+|       1        |    14.4222 ms     | |  <!-- (std: 0.2938) --> 
+
+| **Batch Size** | **Throughput Avg** |
+|:--------------:|:------------------:|
+|       32        |      70.3552 img/s      | 
