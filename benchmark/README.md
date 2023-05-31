@@ -8,11 +8,10 @@ sudo systemctl start docker
 ```
 
 ```
-cd benchmark
 docker pull nvcr.io/nvidia/tensorflow:23.04-tf2-py3
-...
-cd /opt/ml/code/
+```
 docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ nvcr.io/nvidia/tensorflow:23.04-tf2-py3 /bin/bash
+cd /opt/ml/code/
 python tf2rt.py --precision 32 --path forward_trt/
 python tf2rt.py --precision 16 --path forward_trt_16/
 
