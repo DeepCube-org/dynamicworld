@@ -127,7 +127,7 @@ if __name__ == '__main__':
     CHANNELS = 9
 
 
-    model, _ = get_func_from_saved_model('dynamicworld/model/model/forward_trt/')
+    model, _ = get_func_from_saved_model('forward_trt/')
 
     for i in range(2):
         mean, std = get_latency(model, RESOLUTION)

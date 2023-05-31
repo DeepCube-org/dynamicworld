@@ -12,8 +12,8 @@ from tensorflow.python.compiler.tensorrt import trt_convert as trt
  
 if __name__ == '__main__':
 
-    saved_model_dir = 'dynamicworld/model/model/forward/'
-    output_saved_model_dir = 'dynamicworld/model/model/forward_trt/'
+    saved_model_dir = 'forward/'
+    output_saved_model_dir = 'forward_trt/'
 
     # Instantiate the TF-TRT converter
     converter = trt.TrtGraphConverterV2(
