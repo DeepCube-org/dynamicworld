@@ -3,6 +3,7 @@
 
 import os
 import time
+from argparse import ArgumentParser
 
 import numpy as np
 
@@ -67,7 +68,7 @@ def get_optimal_resolution(model):
             break
     return(optimal_resolution)
 
-def get_latency(model, resolution):
+def get_latency(model, batch_size, resolution):
     warm_up(model)
 
     repetitions = 300
@@ -75,7 +76,7 @@ def get_latency(model, resolution):
 
     # MEASURE PERFORMANCE
     for rep in range(repetitions):
-        dummy_input = get_dummy((1, resolution, resolution, CHANNELS))
+        dummy_input = get_dummy((batch_size, resolution, resolution, CHANNELS))
         timings[rep] = time_model(model, dummy_input)
 
     mean_syn = np.sum(timings) / repetitions
@@ -122,21 +123,30 @@ if __name__ == '__main__':
     assert len(physical_devices) > 0, 'No GPUs available'
     tf.config.set_visible_devices(physical_devices[0], 'GPU') #Only the first GPU will be considered
 
+    
+    parser = ArgumentParser()
+    parser.add_argument("--path", type=str, required=True, help="path to the model", default = 'forward/')
+    parser.add_argument("--latency_batch_size", type=int, required=False, help="Batch size used for latency", default = 1)
+    parser.add_argument("--throughput_batch_size", type=int, required=False, help="Batch size used for latency", default = 32)
+    args = parser.parse_args()
+    
+    print('Model used:', args.path)
+    
 
     RESOLUTION = 224
     CHANNELS = 9
 
-
-    model, _ = get_func_from_saved_model('forward_trt/')
+    
+    model, _ = get_func_from_saved_model(args.path)
 
     for i in range(2):
-        mean, std = get_latency(model, RESOLUTION)
+        mean, std = get_latency(model, args.latency_batch_size, RESOLUTION)
 
     print('Latency, average time (ms):', mean)
     print('Latency, std time (ms):', std)
 
     #optimal_batch_size = get_optimal_batch_size(model)
-    optimal_batch_size = 64
+    optimal_batch_size = args.throughput_batch_size
     for i in range(2):
         throughput = get_throughput(model, optimal_batch_size, RESOLUTION)
 

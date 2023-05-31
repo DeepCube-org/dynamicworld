@@ -11,14 +11,26 @@ import tensorflow as tf
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
  
 if __name__ == '__main__':
-
+    
+    parser = ArgumentParser()
+    parser.add_argument("--path", type=str, required=True, help="path to the model")
+    parser.add_argument("--precision", type=int, required=True, help="precision to be used (16 or 32)")
+    args = parser.parse_args()
+    
     saved_model_dir = 'forward/'
-    output_saved_model_dir = 'forward_trt/'
-
+    output_saved_model_dir = args.path
+    
+    if args.precision == 32:
+        precision_mode = trt.TrtPrecisionMode.FP32
+    elif args.precision == 16:
+        precision_mode = trt.TrtPrecisionMode.FP16
+    else:
+        raise Exception('Unsupported precision')
+    
     # Instantiate the TF-TRT converter
     converter = trt.TrtGraphConverterV2(
        input_saved_model_dir=saved_model_dir,
-       precision_mode=trt.TrtPrecisionMode.FP32,
+       precision_mode=precision_mode,
        use_calibration=False,
        use_dynamic_shape=True, # Enable dynamic shape for all the dimensions
        dynamic_shape_profile_strategy='Optimal', # Limited by the inputs provided during the build but the best performing one
