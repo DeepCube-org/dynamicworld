@@ -13,8 +13,12 @@ docker build -t benchmark .
 ...
 cd /opt/ml/code/
 docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ benchmark /bin/bash
-python tf2rt.py
-python benchmark.py
+python tf2rt.py --precision 32 --path forward_trt_32/
+python tf2rt.py --precision 16 --path forward_trt_16/
+
+python benchmark.py --path forward/
+python benchmark.py --path forward_trt_32/
+python benchmark.py --path forward_trt_16/
 ```
 
 
@@ -41,3 +45,4 @@ python benchmark.py
 |:--------------:|:------------------:|
 |       32        |      66.8489 img/s      |  <!-- (std: 0.3939) --> 
 
+###### TensorRT FP16 Inference Latency
