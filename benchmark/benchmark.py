@@ -40,10 +40,10 @@ def time_model(model, dummy_input):
     with tf.device('/GPU:0'):
 
         sync_devices()
-        starter = time.time()*1000.0
+        starter = time.time()*1000.0 # from seconds to milliseconds
         _ = model(dummy_input)
         sync_devices()
-        ender = time.time()*1000.0
+        ender = time.time()*1000.0 # from seconds to milliseconds
         curr_time = ender-starter
 
     return(curr_time)
