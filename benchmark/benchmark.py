@@ -12,7 +12,7 @@ class Benchmark:
         channels = 3
     ):
         self.resolution = resolution
-        self.channles = channels
+        self.channels = channels
         self.load_model(path)
 
     def load_model(self, path):
