@@ -92,7 +92,7 @@ class Benchmark:
         return(throughput)
 
 
-    def metric(
+    def metrics(
         self,
         latency_batch_size,
         throughput_batch_size
