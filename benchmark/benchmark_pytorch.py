@@ -1,14 +1,13 @@
 from benchmark import Benchmark
+import segmentation_models_pytorch as smp
 import torch
 
-import segmentation_models_pytorch as smp
-
 class PyTorchBenchmark(Benchmark):
-
-    def get_dummy(self, shape):
-        x = torch.randn(shape[0], shape[1], shape[2], shape[3], dtype=torch.float, device=self.device)
-        return(x)
     
+    def get_dummy(self, shape):
+        x = torch.randn(shape[0], shape[3], shape[2], shape[1], dtype=torch.float, device=self.device)
+        return(x)
+
     def load_model(self, path=None):
         print('path parameter is not used')
         

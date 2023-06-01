@@ -37,4 +37,7 @@ if __name__ == '__main__':
     else:
         raise Exception('Unsupported type')
 
-    benchmark.metrics()
+    benchmark.metrics(
+        latency_batch_size = args.latency_batch_size,
+        throughput_batch_size = args.throughput_batch_size
+    )

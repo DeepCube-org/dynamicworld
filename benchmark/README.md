@@ -17,9 +17,9 @@ python tf2rt.py --precision 32 --path forward_trt/
 python tf2rt.py --precision 16 --path forward_trt_16/
 ```
 ```
-python benchmark.py --path forward/
-python benchmark.py --path forward_trt/
-python benchmark.py --path forward_trt_16/
+python metrics.py --type TensorFlow --path forward/
+python metrics.py --type TensorFlow --path forward_trt/
+python metrics.py --type TensorFlow --path forward_trt_16/
 ```
 
 
