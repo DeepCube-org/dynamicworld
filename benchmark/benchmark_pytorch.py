@@ -1,6 +1,7 @@
 from benchmark import Benchmark
 import torch
 import segmentation_models_pytorch as smp
+import torch._dynamo
 
 class PyTorchBenchmark(Benchmark):
 
@@ -20,7 +21,7 @@ class PyTorchBenchmark(Benchmark):
         )
         self.model = self.model.to(self.device)
         
-        import torch._dynamo
+        
         torch._dynamo.reset()
         self.model = torch.compile(self.model, mode = 'reduce-overhead')
 
