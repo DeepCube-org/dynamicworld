@@ -2,12 +2,29 @@
 #!pip install -U git+https://github.com/qubvel/segmentation_models.pytorch
 
 import os
-import time
 from argparse import ArgumentParser
 
-import numpy as np
+import tensorflow as tf
+from tensorflow.python.saved_model import tag_constants
+from tensorflow.python.saved_model import signature_constants
+from benchmark.benchmark_tensorflow import TensorFlowBenchmark
 
 
+class TensorFlowExample(TensorFlowBenchmark):
+
+    def load_model(self, path):
+        
+        physical_devices = tf.config.list_physical_devices('GPU')
+        assert len(physical_devices) > 0, 'No GPUs available'
+        tf.config.set_visible_devices(physical_devices[0], 'GPU') #Only the first GPU will be considered
+
+        saved_model_loaded = tf.saved_model.load(path, tags=[tag_constants.SERVING])
+        graph_func = saved_model_loaded.signatures[signature_constants.DEFAULT_SERVING_SIGNATURE_DEF_KEY]
+        self.model = graph_func
+        self.device = '/GPU:0'
+        
+        print('TensorFlow Version:', tf.__version__)
+        print('Device:', self.device)
 
 
 if __name__ == '__main__':
@@ -17,7 +34,6 @@ if __name__ == '__main__':
     
     parser = ArgumentParser()
     parser.add_argument("--path", type=str, required=False, help="path to the model", default = 'forward/')
-    parser.add_argument("--type", type=str, required=False, help="The used framework (TensorFlow or PyTorch)", default = 'TensorFlow')
     parser.add_argument("--latency_batch_size", type=int, required=False, help="Batch size used for latency", default = 1)
     parser.add_argument("--throughput_batch_size", type=int, required=False, help="Batch size used for latency", default = 32)
     args = parser.parse_args()
@@ -25,18 +41,15 @@ if __name__ == '__main__':
     print('Model used:', args.path)
     
 
-    RESOLUTION = 224
-    CHANNELS = 9
-
-    if(args.type == 'TensorFlow'):
-        from benchmark_tensorflow import TensorFlowBenchmark
-        benchmark = TensorFlowBenchmark(path = args.path, resolution = 224, channels = 3)
-    elif(args.type == 'PyTorch'):
-        from benchmark_pytorch import PyTorchBenchmark 
-        benchmark = PyTorchBenchmark(path = args.path, resolution = 224, channels = 3)
-    else:
-        raise Exception('Unsupported type')
-
+    RESOLUTION = 96
+    CHANNELS = 3
+    
+    benchmark = TensorFlowBenchmark(
+        path = args.path, 
+        resolution = RESOLUTION, 
+        channels = CHANNELS
+    )
+        
     benchmark.metrics(
         latency_batch_size = args.latency_batch_size,
         throughput_batch_size = args.throughput_batch_size
