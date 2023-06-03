@@ -6,6 +6,8 @@ The TensorRT execution engine should be built on a GPU of the same device type a
 as the building process is GPU specific.
 """
 
+from argparse import ArgumentParser
+
 import tensorflow as tf
 import tensorflow as tf
 from tensorflow.python.compiler.tensorrt import trt_convert as trt
