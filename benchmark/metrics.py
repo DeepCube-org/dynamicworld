@@ -41,10 +41,10 @@ if __name__ == '__main__':
     print('Model used:', args.path)
     
 
-    RESOLUTION = 96
-    CHANNELS = 3
-    
-    benchmark = TensorFlowBenchmark(
+    RESOLUTION = 224
+    CHANNELS = 9
+
+    benchmark = TensorFlowExample(
         path = args.path, 
         resolution = RESOLUTION, 
         channels = CHANNELS

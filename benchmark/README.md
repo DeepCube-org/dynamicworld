@@ -12,15 +12,15 @@ docker pull nvcr.io/nvidia/tensorflow:23.04-tf2-py3
 ```
 ```
 docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ nvcr.io/nvidia/tensorflow:23.04-tf2-py3 /bin/bash
-pip install https://github.com/DeepCube-org/Performances.git
+pip install git+https://github.com/DeepCube-org/benchmark.git@main
 cd /opt/ml/code/
 python tf2rt.py --precision 32 --path forward_trt/
 python tf2rt.py --precision 16 --path forward_trt_16/
 ```
 ```
-python metrics.py --type TensorFlow --path forward/
-python metrics.py --type TensorFlow --path forward_trt/
-python metrics.py --type TensorFlow --path forward_trt_16/
+python metrics.py --path forward/
+python metrics.py --path forward_trt/
+python metrics.py --path forward_trt_16/
 ```
 
 
