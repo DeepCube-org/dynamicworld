@@ -27,7 +27,7 @@ python metrics.py --path forward_trt_16/
 
 ##### Inference performance: NVIDIA A10G
 
-###### FP32
+###### FP32, resolution: 224x224, channels: 9
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
@@ -37,7 +37,7 @@ python metrics.py --path forward_trt_16/
 |:--------------:|:------------------:|
 |       32        |      58.3326 img/s      |
 
-###### TensorRT FP32
+###### TensorRT FP32, resolution: 224x224, channels: 9
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
@@ -47,7 +47,7 @@ python metrics.py --path forward_trt_16/
 |:--------------:|:------------------:|
 |       32        |      66.8489 img/s      |  <!-- (std: 0.3939) --> 
 
-###### TensorRT FP16
+###### TensorRT FP16, resolution: 224x224, channels: 9
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
