@@ -47,8 +47,8 @@ python metrics.py --path forward_trt/
 
 ###### TensorRT FP16, resolution: 224x224, channels: 9
 ```
-python metrics.py --path forward_trt_16/
 python tf2rt.py --precision 16 --path forward_trt_16/
+python metrics.py --path forward_trt_16/
 ```
 
 | **Batch Size** | **Latency Avg** |
