@@ -14,20 +14,14 @@ docker pull nvcr.io/nvidia/tensorflow:23.04-tf2-py3
 docker run --rm --shm-size=1g --ulimit memlock=-1 --gpus all -it -v $PWD:/opt/ml/code/ nvcr.io/nvidia/tensorflow:23.04-tf2-py3 /bin/bash
 pip install git+https://github.com/DeepCube-org/benchmark.git@main
 cd /opt/ml/code/
-python tf2rt.py --precision 32 --path forward_trt/
-python tf2rt.py --precision 16 --path forward_trt_16/
 ```
-```
-python metrics.py --path forward/
-python metrics.py --path forward_trt/
-python metrics.py --path forward_trt_16/
-```
-
-
 
 ##### Inference performance: NVIDIA A10G
 
 ###### FP32, resolution: 224x224, channels: 9
+```
+python metrics.py --path forward/
+```
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
@@ -38,6 +32,10 @@ python metrics.py --path forward_trt_16/
 |       32        |      58.3326 img/s      |
 
 ###### TensorRT FP32, resolution: 224x224, channels: 9
+```
+python tf2rt.py --precision 32 --path forward_trt/
+python metrics.py --path forward_trt/
+```
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
@@ -48,6 +46,10 @@ python metrics.py --path forward_trt_16/
 |       32        |      66.8489 img/s      |  <!-- (std: 0.3939) --> 
 
 ###### TensorRT FP16, resolution: 224x224, channels: 9
+```
+python metrics.py --path forward_trt_16/
+python tf2rt.py --precision 16 --path forward_trt_16/
+```
 
 | **Batch Size** | **Latency Avg** |
 |:--------------:|:---------------:|
