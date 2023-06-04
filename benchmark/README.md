@@ -16,7 +16,7 @@ pip install git+https://github.com/DeepCube-org/benchmark.git@main
 cd /opt/ml/code/
 ```
 
-##### Inference performance: NVIDIA A10G
+##### Inference performance: NVIDIA A10G (aws g5.xlarge)
 
 ###### FP32, resolution: 224x224, channels: 9
 ```
